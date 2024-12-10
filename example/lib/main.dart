@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -33,7 +32,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,24 +39,31 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have to press the Floating Action Button',
+            TextButton(
+              onPressed: () {
+                WunderFlutterConfetti.startConfettiWithSvgAsset(context, 'assets/ufo.svg',
+                    [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]);
+              },
+              child: const Text(
+                'Confetti with SVG',
+              ),
             ),
+            TextButton(
+              onPressed: () {
+                WunderFlutterConfetti.startConfettiWithImageAsset(context, 'assets/ufo.png',
+                    [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]);
+              },
+              child: const Text(
+                'Confetti with PNG',
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          WunderFlutterConfetti.startConfettiWithSvgAsset(context, 'assets/ufo.svg',
-              [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]);
-        },
-        tooltip: 'Confetti',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
