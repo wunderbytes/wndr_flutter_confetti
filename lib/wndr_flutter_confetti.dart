@@ -7,14 +7,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:wndr_flutter_confetti/image_particle.dart';
 
-/// A Calculator.
 class WunderFlutterConfetti {
-  static Future startConfettiWithImageAsset(BuildContext context, String imageAsset, List<ui.Color>? colors) {
+  static Future startConfettiWithImageAsset(BuildContext context, String imageAsset, { List<ui.Color>? colors }) {
     return ImageParticle.createUIImageFromImageAsset(imageAsset)
         .then((image) => _startConfettiFromCorners(context: context, image: image, colors: colors));
   }
 
-  static Future startConfettiWithSvgAsset(BuildContext context, String svgAsset, List<ui.Color>? colors) {
+  static Future startConfettiWithSvgAsset(BuildContext context, String svgAsset, { List<ui.Color>? colors}) {
     return ImageParticle.createUIImageFromSvgAsset(svgAsset)
         .then((image) => _startConfettiFromCorners(context: context, image: image, colors: colors));
   }
@@ -32,5 +31,5 @@ class WunderFlutterConfetti {
   }
 
   static ImageParticle _buildImageParticle(ui.Image image, List<ui.Color>? colors) =>
-      ImageParticle(image: image, color: colors?[Random().nextInt(colors.length)]);
+      ImageParticle(image: image, color: colors != null ? colors[Random().nextInt(colors.length)] : null);
 }
