@@ -70,10 +70,10 @@ class ImageParticle extends ConfettiParticle {
   ///
   /// Returns a [Future] that completes with the loaded [Image].
   static Future<Image> createUIImageFromImageAsset(
-      String imageAsset, {
-        int height = 50,
-        int width = 50,
-      }) async {
+    String imageAsset, {
+    int height = 50,
+    int width = 50,
+  }) async {
     final ByteData assetImageByteData = await rootBundle.load(imageAsset);
     final codec = await instantiateImageCodec(
       assetImageByteData.buffer.asUint8List(),
@@ -96,11 +96,12 @@ class ImageParticle extends ConfettiParticle {
   ///
   /// Returns a [Future] that completes with the rasterized [Image].
   static Future<Image> createUIImageFromSvgAsset(
-      String svgAsset, {
-        int height = 50,
-        int width = 50,
-      }) async {
-    final PictureInfo pictureInfo = await vg.loadPicture(SvgAssetLoader(svgAsset), null);
+    String svgAsset, {
+    int height = 50,
+    int width = 50,
+  }) async {
+    final PictureInfo pictureInfo =
+        await vg.loadPicture(SvgAssetLoader(svgAsset), null);
 
     final Image image = await pictureInfo.picture.toImage(width, height);
 
@@ -109,4 +110,3 @@ class ImageParticle extends ConfettiParticle {
     return image;
   }
 }
-

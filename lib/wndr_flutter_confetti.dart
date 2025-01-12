@@ -33,12 +33,13 @@ class WunderFlutterConfetti {
   ///
   /// Returns a [Future] that completes when the confetti animation is launched.
   static Future startConfettiWithImageAsset(
-      BuildContext context,
-      String imageAsset, {
-        List<ui.Color>? colors,
-      }) {
-    return ImageParticle.createUIImageFromImageAsset(imageAsset)
-        .then((image) => _startConfettiFromCorners(context: context, image: image, colors: colors));
+    BuildContext context,
+    String imageAsset, {
+    List<ui.Color>? colors,
+  }) {
+    return ImageParticle.createUIImageFromImageAsset(imageAsset).then((image) =>
+        _startConfettiFromCorners(
+            context: context, image: image, colors: colors));
   }
 
   /// Launches a confetti animation using an SVG asset.
@@ -54,12 +55,13 @@ class WunderFlutterConfetti {
   ///
   /// Returns a [Future] that completes when the confetti animation is launched.
   static Future startConfettiWithSvgAsset(
-      BuildContext context,
-      String svgAsset, {
-        List<ui.Color>? colors,
-      }) {
-    return ImageParticle.createUIImageFromSvgAsset(svgAsset)
-        .then((image) => _startConfettiFromCorners(context: context, image: image, colors: colors));
+    BuildContext context,
+    String svgAsset, {
+    List<ui.Color>? colors,
+  }) {
+    return ImageParticle.createUIImageFromSvgAsset(svgAsset).then((image) =>
+        _startConfettiFromCorners(
+            context: context, image: image, colors: colors));
   }
 
   /// Starts a confetti animation from the corners of the screen.
@@ -80,11 +82,21 @@ class WunderFlutterConfetti {
     Confetti.launch(context,
         particleBuilder: (index) => _buildImageParticle(image, colors),
         options: const ConfettiOptions(
-            particleCount: 100, spread: 40, startVelocity: 60, y: 1.0, x: 1.0, angle: 110));
+            particleCount: 100,
+            spread: 40,
+            startVelocity: 60,
+            y: 1.0,
+            x: 1.0,
+            angle: 110));
     Confetti.launch(context,
         particleBuilder: (index) => _buildImageParticle(image, colors),
         options: const ConfettiOptions(
-            particleCount: 100, spread: 40, startVelocity: 60, y: 1.0, x: 0, angle: 70));
+            particleCount: 100,
+            spread: 40,
+            startVelocity: 60,
+            y: 1.0,
+            x: 0,
+            angle: 70));
   }
 
   /// Builds an [ImageParticle] for use in the confetti animation.
@@ -98,6 +110,10 @@ class WunderFlutterConfetti {
   ///   the particle.
   ///
   /// Returns the created [ImageParticle].
-  static ImageParticle _buildImageParticle(ui.Image image, List<ui.Color>? colors) =>
-      ImageParticle(image: image, color: colors != null ? colors[Random().nextInt(colors.length)] : null);
+  static ImageParticle _buildImageParticle(
+          ui.Image image, List<ui.Color>? colors) =>
+      ImageParticle(
+          image: image,
+          color:
+              colors != null ? colors[Random().nextInt(colors.length)] : null);
 }
