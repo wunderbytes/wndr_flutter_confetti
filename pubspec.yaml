@@ -1,6 +1,6 @@
 name: wndr_flutter_confetti
 description: "A wunderful package for creating customizable confetti animations using image and SVG assets, with support for color overlays and dynamic particle effects."
-version: 0.0.1
+version: 0.1.0
 repository: https://github.com/wunderbytes/wndr_flutter_confetti
 
 environment:
