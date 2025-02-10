@@ -1,6 +1,6 @@
 name: wndr_flutter_confetti
 description: "Confetti package of Wunderbytes."
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/wunderbytes/wndr_flutter_confetti
 
 environment:
