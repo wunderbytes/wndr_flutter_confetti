@@ -37,5 +37,15 @@ WunderFlutterConfetti.startConfettiWithSvgAsset(
 );
 ```
 
+_```dart
+// Use this for vector graphic and image assets
+WunderFlutterConfetti.startConfettiWithDifferentImages(context, [
+  'assets/ufo.png',
+  'assets/ufo.svg',
+  ], colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow],
+  svgTypes: ['svg'] // You can tell which extension's has to be processed as vector graphics asset
+);
+```_
+
 
 

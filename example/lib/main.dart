@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 WunderFlutterConfetti.startConfettiWithSvgAsset(
-                    context, 'assets/ufo.svg', colors: [
+                    context, 'assets/ufo_face.svg', colors: [
                   Colors.red,
                   Colors.blue,
                   Colors.green,
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 WunderFlutterConfetti.startConfettiWithImageAsset(
-                    context, 'assets/ufo.png', colors: [
+                    context, 'assets/ufo_face.png', colors: [
                   Colors.red,
                   Colors.blue,
                   Colors.green,
@@ -71,6 +71,24 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text(
                 'Confetti with PNG',
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                WunderFlutterConfetti.startConfettiWithDifferentImages(context, [
+                  /*'assets/ufo_face.png',
+                  'assets/ufo_face.svg',*/
+                  'assets/ufo_saucer.svg',
+                ], colors: [
+                  Colors.red,
+                  Colors.blue,
+                  Colors.green,
+                  Colors.orange,
+                  Colors.yellow
+                ]);
+              },
+              child: const Text(
+                'Confetti with PNGs and SVGs',
               ),
             )
           ],

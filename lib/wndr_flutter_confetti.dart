@@ -20,6 +20,33 @@ import 'package:wndr_flutter_confetti/image_particle.dart';
 /// customized with optional color overlays, and animations are launched from
 /// the corners of the screen.
 class WunderFlutterConfetti {
+
+  /// Launches a confetti animation using a list of different types of image assets.
+  ///
+  /// This method loads all images from the provided [imageAssets] path list, creates
+  /// confetti particles using the [ImageParticle] class, and launches the
+  /// animation from the corners of the screen.
+  ///
+  /// - [context]: The [BuildContext] used to render the confetti.
+  /// - [imageAssets]: The asset path list of the image to use for confetti particles.
+  /// - [colors]: An optional list of [ui.Color] values to apply as overlays to
+  ///   the particles.
+  /// - [svgTypes]: The list of extensions used to determine which assets to process as vector graphics.
+  ///
+  /// Returns a [Future] that completes when the confetti animation is launched.
+  static Future startConfettiWithDifferentImages(BuildContext context, List<String> imageAssets,
+      {List<ui.Color>? colors, List<String> svgTypes = const ['svg']}) async {
+    final images = await Future.wait(imageAssets.map((asset) {
+      if (svgTypes.contains(asset.split('.').last)) {
+        return ImageParticle.createUIImageFromSvgAsset(asset);
+      }
+
+      return ImageParticle.createUIImageFromImageAsset(asset);
+    }));
+
+    return _startConfettiFromCorners(context: context, images: images, colors: colors);
+  }
+
   /// Launches a confetti animation using an image asset.
   ///
   /// This method loads an image from the provided [imageAsset] path, creates
@@ -39,7 +66,7 @@ class WunderFlutterConfetti {
   }) {
     return ImageParticle.createUIImageFromImageAsset(imageAsset).then((image) =>
         _startConfettiFromCorners(
-            context: context, image: image, colors: colors));
+            context: context, images: [image], colors: colors));
   }
 
   /// Launches a confetti animation using an SVG asset.
@@ -61,7 +88,7 @@ class WunderFlutterConfetti {
   }) {
     return ImageParticle.createUIImageFromSvgAsset(svgAsset).then((image) =>
         _startConfettiFromCorners(
-            context: context, image: image, colors: colors));
+            context: context, images: [image], colors: colors));
   }
 
   /// Starts a confetti animation from the corners of the screen.
@@ -71,16 +98,21 @@ class WunderFlutterConfetti {
   /// rendered using an [ImageParticle], with optional color overlays.
   ///
   /// - [context]: The [BuildContext] used to render the confetti.
-  /// - [image]: The image used for confetti particles.
+  /// - [images]: The images used for confetti particles.
   /// - [colors]: An optional list of [ui.Color] values to apply as overlays to
   ///   the particles.
-  static void _startConfettiFromCorners({
-    required BuildContext context,
-    required ui.Image image,
-    List<ui.Color>? colors,
-  }) {
+  static void _startConfettiFromCorners(
+      {required BuildContext context, required List<ui.Image> images, List<ui.Color>? colors}) {
+    randomImage() {
+      if (images.length > 1) {
+        return images[Random().nextInt(images.length)];
+      }
+
+      return images.first;
+    }
+
     Confetti.launch(context,
-        particleBuilder: (index) => _buildImageParticle(image, colors),
+        particleBuilder: (index) => _buildImageParticle(randomImage(), colors),
         options: const ConfettiOptions(
             particleCount: 100,
             spread: 40,
@@ -89,7 +121,7 @@ class WunderFlutterConfetti {
             x: 1.0,
             angle: 110));
     Confetti.launch(context,
-        particleBuilder: (index) => _buildImageParticle(image, colors),
+        particleBuilder: (index) => _buildImageParticle(randomImage(), colors),
         options: const ConfettiOptions(
             particleCount: 100,
             spread: 40,

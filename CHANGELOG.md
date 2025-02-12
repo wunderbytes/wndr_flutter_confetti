@@ -1,3 +1,7 @@
+## 0.2.0
+
+* Added multi-particle support.
+
 ##0.1.0
 
 * dart formatting
