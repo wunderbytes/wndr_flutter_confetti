@@ -76,8 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 WunderFlutterConfetti.startConfettiWithDifferentImages(context, [
-                  /*'assets/ufo_face.png',
-                  'assets/ufo_face.svg',*/
+                  'assets/ufo_face.png',
+                  //'assets/ufo_face.svg',
                   'assets/ufo_saucer.svg',
                 ], colors: [
                   Colors.red,

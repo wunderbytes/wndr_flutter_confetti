@@ -11,8 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_confetti: ^0.3.4
-  flutter_svg: ^2.0.16
+  flutter_confetti: ^0.4.0
+  flutter_svg: ^2.0.17
+  image: ^4.5.2
 
 dev_dependencies:
   flutter_test:

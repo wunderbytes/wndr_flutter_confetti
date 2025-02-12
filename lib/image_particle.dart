@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image/image.dart' as img;
 
 /// A custom [ConfettiParticle] that renders an image.
 ///
@@ -47,8 +49,7 @@ class ImageParticle extends ConfettiParticle {
     canvas.rotate(pi / 10 * physics.wobble);
     canvas.scale(1.0, 1.0);
 
-    final paint = Paint()
-      ..color = Color.fromRGBO(255, 255, 255, 1 - physics.progress);
+    final paint = Paint()..color = Color.fromRGBO(255, 255, 255, 1 - physics.progress);
 
     if (color != null) {
       paint.colorFilter = ColorFilter.mode(color!, BlendMode.srcIn);
@@ -103,10 +104,54 @@ class ImageParticle extends ConfettiParticle {
     final PictureInfo pictureInfo =
         await vg.loadPicture(SvgAssetLoader(svgAsset), null);
 
-    final Image image = await pictureInfo.picture.toImage(width, height);
+    var pictureWidth = pictureInfo.size.width.toInt();
+    var pictureHeight = pictureInfo.size.height.toInt();
+    final Image image = await pictureInfo.picture.toImage(pictureWidth, pictureHeight);
 
     pictureInfo.picture.dispose();
 
-    return image;
+    final resizedImage = await _resizeSvg(image, width, height, pictureWidth, pictureHeight);
+    return resizedImage ?? image;
+  }
+
+  /// Creates a resized [Image] from another [Image] source which contains svg data
+  ///
+  /// Resizes the given [Image] with fit inside the [targetWidth] and [targetHeight]
+  ///
+  ///  - [image]: The source of svg image
+  ///  - [targetWidth]: The target width of the image.
+  ///  - [targetHeight]: The target height of the image.
+  ///  - [pictureWidth]: The original width of the source svg.
+  ///  - [pictureHeight]: The original height of the source svg.
+  ///
+  /// Returns an [Image] when decoding and resizing was successful as a png otherwise the result is null.
+  static Future<Image?> _resizeSvg(Image image, int targetWidth, int targetHeight, int pictureWidth, int pictureHeight) async {
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    if (byteData == null) {
+      return null;
+    }
+
+    final decodedImage = img.decodePng(byteData.buffer.asUint8List());
+    if (decodedImage == null) {
+      return null;
+    }
+
+    int finalWidth;
+    int finalHeight;
+    if (targetWidth / targetHeight < pictureWidth / pictureHeight) {
+      finalWidth = targetWidth;
+      finalHeight = ((targetWidth / pictureWidth) * pictureHeight).toInt();
+    } else {
+      finalHeight = targetHeight;
+      finalWidth = ((targetHeight / pictureHeight) * pictureWidth).toInt();
+    }
+
+    final resizedImage = img.copyResize(decodedImage, width: finalWidth, height: finalHeight);
+    final Uint8List resizedBytes = img.encodePng(resizedImage);
+
+    final Completer<Image> completer = Completer();
+    decodeImageFromList(resizedBytes, (Image img) => completer.complete(img));
+
+    return completer.future;
   }
 }
