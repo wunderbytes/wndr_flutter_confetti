@@ -2,7 +2,7 @@
 
 * Added multi-particle support.
 
-##0.1.0
+## 0.1.0
 
 * dart formatting
 * description extended
