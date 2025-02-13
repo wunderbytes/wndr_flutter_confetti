@@ -146,7 +146,7 @@ class ImageParticle extends ConfettiParticle {
       finalWidth = ((targetHeight / pictureHeight) * pictureWidth).toInt();
     }
 
-    final resizedImage = img.copyResize(decodedImage, width: finalWidth, height: finalHeight);
+    final resizedImage = img.copyResize(decodedImage, width: finalWidth, height: finalHeight, interpolation: img.Interpolation.cubic);
     final Uint8List resizedBytes = img.encodePng(resizedImage);
 
     final Completer<Image> completer = Completer();
