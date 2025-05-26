@@ -45,14 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextButton(
               onPressed: () {
-                WunderFlutterConfetti.startConfettiWithSvgAsset(
-                    context, 'assets/ufo_face.svg', colors: [
-                  Colors.red,
-                  Colors.blue,
-                  Colors.green,
-                  Colors.orange,
-                  Colors.yellow
-                ]);
+                WunderFlutterConfetti.startConfettiWithSvgAsset(context, 'assets/ufo_face.svg',
+                  params: const ConfettiParams(
+                    colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]
+                  )
+                );
               },
               child: const Text(
                 'Confetti with SVG',
@@ -61,13 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () {
                 WunderFlutterConfetti.startConfettiWithImageAsset(
-                    context, 'assets/ufo_face.png', colors: [
-                  Colors.red,
-                  Colors.blue,
-                  Colors.green,
-                  Colors.orange,
-                  Colors.yellow
-                ]);
+                  context, 'assets/ufo_face.png',
+                  params: const ConfettiParams(
+                    colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]
+                  )
+                );
               },
               child: const Text(
                 'Confetti with PNG',
@@ -79,13 +74,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   'assets/ufo_face.png',
                   //'assets/ufo_face.svg',
                   'assets/ufo_saucer.svg',
-                ], colors: [
-                  Colors.red,
-                  Colors.blue,
-                  Colors.green,
-                  Colors.orange,
-                  Colors.yellow
-                ]);
+                ],
+                  params: const ConfettiParams(
+                    colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow],
+                    particleHeight: 100,
+                    particleWidth: 100,
+                    particleCount: 30,
+                    startVelocity: 50,
+                  )
+                );
               },
               child: const Text(
                 'Confetti with PNGs and SVGs',
