@@ -1,3 +1,7 @@
+## 0.3.0 
+
+* Added ConfettiParams to set count, width, height and velocity dynamically
+
 ## 0.2.0
 
 * Added multi-particle support.

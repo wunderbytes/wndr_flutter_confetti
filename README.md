@@ -24,7 +24,9 @@ your image, and the last is an optional list of colors used randomly as a ColorF
 WunderFlutterConfetti.startConfettiWithImageAsset(
     context,
     'assets/ufo.png',
-    [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]
+    params: const ConfettiParams(
+      [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]
+    )
 );
 ```
 
@@ -33,7 +35,9 @@ WunderFlutterConfetti.startConfettiWithImageAsset(
 WunderFlutterConfetti.startConfettiWithSvgAsset(
     context,
     'assets/ufo.svg',
-    [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]
+    params: const ConfettiParams(
+      colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow]
+    )
 );
 ```
 
@@ -42,8 +46,10 @@ _```dart
 WunderFlutterConfetti.startConfettiWithDifferentImages(context, [
   'assets/ufo.png',
   'assets/ufo.svg',
-  ], colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow],
-  svgTypes: ['svg'] // You can tell which extension's has to be processed as vector graphics asset
+  ],
+  params: const ConfettiParams(
+    colors: [Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.yellow],
+  )
 );
 ```_
 
