@@ -1,5 +1,6 @@
 library wndr_flutter_confetti;
 
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
 
@@ -38,12 +39,12 @@ class WunderFlutterConfetti {
       {
         ConfettiParams params = const ConfettiParams()
       }
-  ) async {
+      ) async {
     final images = await Future.wait(imageAssets.map(
           (asset) => _loadImage(asset, params.particleWidth, params.particleHeight),
     ));
 
-    _startConfettiFromCorners(context: context, images: images, params: params);
+    await _startConfettiFromCorners(context: context, images: images, params: params);
   }
 
   /// Launches confetti animation using a single image asset.
@@ -53,9 +54,9 @@ class WunderFlutterConfetti {
       {
         ConfettiParams params = const ConfettiParams(),
       }
-  ) async {
+      ) async {
     final image = await ImageParticle.createUIImageFromImageAsset(imageAsset, width: params.particleWidth, height: params.particleHeight);
-    _startConfettiFromCorners(context: context, images: [image], params: params);
+    await _startConfettiFromCorners(context: context, images: [image], params: params);
   }
 
   /// Launches confetti animation using a single SVG asset.
@@ -67,7 +68,7 @@ class WunderFlutterConfetti {
       }
   ) async {
     final image = await ImageParticle.createUIImageFromSvgAsset(svgAsset, width: params.particleWidth, height: params.particleHeight);
-    _startConfettiFromCorners(context: context, images: [image], params: params);
+    await _startConfettiFromCorners(context: context, images: [image], params: params);
   }
 
   /// Private helper to load image or SVG.
@@ -81,17 +82,19 @@ class WunderFlutterConfetti {
   }
 
   /// Starts the confetti animation from both screen corners using the provided params.
-  static void _startConfettiFromCorners({
+  static Future<void> _startConfettiFromCorners({
     required BuildContext context,
     required List<ui.Image> images,
     required ConfettiParams params,
-  }) {
+  }) async {
+    final completer1 = Completer<void>();
+    final completer2 = Completer<void>();
     final random = Random();
     ui.Image randomImage() => images.length > 1 ? images[random.nextInt(images.length)] : images.first;
 
     buildParticle(int index) => ImageParticle(
-      image: randomImage(),
-      color: params.colors != null ? params.colors![Random().nextInt(params.colors!.length)] : null
+        image: randomImage(),
+        color: params.colors != null ? params.colors![Random().nextInt(params.colors!.length)] : null
     );
 
     Confetti.launch(context,
@@ -103,7 +106,11 @@ class WunderFlutterConfetti {
           y: 1.0,
           x: 1.0,
           angle: params.angleRight,
-        ));
+        ),
+        onFinished: (OverlayEntry entry) {
+          completer1.complete();
+        }
+    );
 
     Confetti.launch(context,
         particleBuilder: buildParticle,
@@ -114,6 +121,15 @@ class WunderFlutterConfetti {
           y: 1.0,
           x: 0.0,
           angle: params.angleLeft,
-        ));
+        ),
+        onFinished: (OverlayEntry entry) {
+          completer2.complete();
+        }
+    );
+
+    await Future.wait([
+      completer1.future,
+      completer2.future,
+    ]);
   }
 }
